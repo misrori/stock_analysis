@@ -1,4 +1,4 @@
-#!/home/mihaly/anaconda3/bin/python
+#!~/anaconda3/bin/python
 from datetime import datetime
 import pandas as pd
 from pandas_datareader import data as dreader
@@ -8,7 +8,6 @@ import os
 os.chdir("/home/mihaly/Desktop/stock_data")
 
 d= pd.read_csv('http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nyse&render=download')
-#pd.read_csv('http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download')
 
 my_list=list(set(d[d.Symbol.str.contains("\\^")==False].Symbol))
 print (len(my_list))
