@@ -20,7 +20,6 @@ belepes <- adat[,list(belepes=min(Date)),by='ticker']
 #basic_info + belepes
 setkey(belepes, 'ticker')
 setkey(comp_list,'Symbol')
-setkey(adat, 'ticker')
 comp_list <- comp_list[belepes]
 comp_list$Sector <- gsub(' ', '_',tolower(comp_list$Sector))
 comp_list$industry <- gsub(' ', '_',tolower(comp_list$industry))
