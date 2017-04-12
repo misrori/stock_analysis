@@ -1,4 +1,4 @@
-
+library(stringr)
 prices <- function( tickers  ,startDate=c("01", "01", "1900") ){
   ### define the URLs
  
@@ -50,57 +50,9 @@ tozsde_plot <- function(number_of_days, my_adatom, list_of_markets){
     title = "Change (%)",
     titlefont = f
   )
-  
-  m <- list(
-    l = 100,
-    r = 100,
-    b = 10,
-    t = 150,
-    pad = 4
-  )
   p<-plot_ly(my_df, x = ~Date, y = ~change, color =~ticker, text= ~Close)%>%
-    add_lines()%>%layout(title = paste(number_of_days, 'Days'), xaxis = x, yaxis = y, height = 900, width = 1200)%>%
-    subplot(nrows=100, shareX = T )
+    add_lines()%>%layout(title = paste(number_of_days, 'Days'), xaxis = x, yaxis = y)
   
   return(p)
   
 }
-
-
-get_company_list <- function(){
-  
-  comp_list = data.table(rbind(read.csv('http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download', stringsAsFactors = F), read.csv('http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nyse&render=download', stringsAsFactors = F)))
-  #cleaning
-  comp_list <- comp_list[,-c(5,8,9), with=F]
-  comp_list <-comp_list[-grep("\\^",comp_list$Symbol),  ]
-  comp_list <-comp_list[duplicated(comp_list$Name)==F,]
-  comp_list[MarketCap=='/a',]$MarketCap <- '0'
-  comp_list[MarketCap=='n/a',]$MarketCap <- '0'
-  
-  
-  comp_list$LastSale <- as.numeric(comp_list$LastSale)
-  
-
-  for (i in 1:nrow(comp_list)){
-    comp_list$MarketCap[i] <- substr(comp_list$MarketCap[i], 2,nchar(comp_list$MarketCap[i]))
-  }
-  
-  
-  for (i in 1:nrow(comp_list)){
-    if (endsWith(comp_list$MarketCap[i],"B")) {
-      comp_list$MarketCap[i] <- as.numeric(substr(comp_list$MarketCap[i], 1,nchar(comp_list$MarketCap[i])-1))
-    }
-    
-    if (endsWith(comp_list$MarketCap[i],"M")) {
-      comp_list$MarketCap[i] <- as.numeric(substr(comp_list$MarketCap[i], 1,nchar(comp_list$MarketCap[i])-1))/1000
-    }
-  }
-  
-  
-  comp_list$MarketCap <- as.numeric(comp_list$MarketCap)
-  return(comp_list)
-  
-}
-
-
-
