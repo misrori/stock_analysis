@@ -21,7 +21,8 @@ navbarPage(
                                                 "Technology"="technology", "Transportation"="transportation"), 
                                     selected = "Technology"),
                         uiOutput("industries"),
-                        sliderInput("integer", "Number of days before:", min=0, max=100, value=50)
+                        sliderInput("integer", "Number of days before:", min=0, max=100, value=50),
+                        radioButtons('rb', 'Select markets', choices = c('NYSE'='1', 'NASDAQ'='0', 'BOTH'='2'), selected = NULL)
                         
                       ),
                       mainPanel(

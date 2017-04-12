@@ -17,23 +17,35 @@ function(input, output, session) {
     return(indristies)
   })
   
+
   
   output$industries <- renderUI({
     selectInput("industries_select", "Vállasz industries",selected = "", choices= my_industries() )
   })
   
-  
+  my_market <- reactive({
+    return(input$rb)
+  })
   my_list <- reactive({
-    lista <- comp_list[comp_list$Sector==input$sector & comp_list$industry==input$industries_select,]$Symbol
+    lista <- comp_list[comp_list$Sector==input$sector & comp_list$industry==input$industries_select ]$Symbol
     return(lista)
   })
   
+
+  
+  
   
   my_data <- reactive({
-    adatom_teljes <- adat[adat$ticker %in% my_list(),]
-    print(head(adatom_teljes))
-    print(str(adatom_teljes))
-    adatom_teljes$Date <- as.Date(adatom_teljes$Date)
+    if(my_market()=='2'){
+      adatom_teljes <- adat[adat$ticker %in% my_list()]
+      adatom_teljes$Date <- as.Date(adatom_teljes$Date)
+    }
+    else{
+      adatom_teljes <- adat[adat$ticker %in% my_list()& adat$ny==my_market(),]
+      
+      adatom_teljes$Date <- as.Date(adatom_teljes$Date)
+    }
+    
     return(adatom_teljes)
   })
   
