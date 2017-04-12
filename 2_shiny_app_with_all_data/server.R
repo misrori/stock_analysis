@@ -7,7 +7,7 @@ library(stringr)
 
 
 function(input, output, session) {
-  source('my_functions.R')
+  source('../my_functions.R')
   comp_list <- data.table(import('../0_step_get_the_data/comp_list.RData'))
   adat <- data.table(import('../0_step_get_the_data/Stock_data.RData'))
   adat$Close <- as.numeric(adat$Close)
@@ -30,10 +30,6 @@ function(input, output, session) {
     lista <- comp_list[comp_list$Sector==input$sector & comp_list$industry==input$industries_select ]$Symbol
     return(lista)
   })
-  
-
-  
-  
   
   my_data <- reactive({
     if(my_market()=='2'){

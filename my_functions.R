@@ -26,17 +26,13 @@ tozsde_plot <- function(number_of_days, my_adatom, list_of_markets){
   adatom <- data.table(my_adatom[my_adatom$Date %in% my_days,])
   setorder(adatom, ticker, Date)
   
-  my_df <- data.table()
   
-  for(i in list_of_markets){
-    tmp_data <-adatom[ticker==i,]
-    current <- tmp_data$Close[1]
-    change <- c(0, (( tmp_data$Close[2:number_of_days]/current)-1)*100)
-
-    tmp_data$change <- change
-    my_df <- rbind(my_df, tmp_data)
-    
+  for (i in list_of_markets) {
+    baseline <- adatom[ticker == i, Close][1]
+    adatom[ticker == i, change := (Close/baseline-1)*100]
   }
+  
+
   f <- list(
     family = "Courier New, monospace",
     size = 18,
@@ -58,14 +54,13 @@ tozsde_plot <- function(number_of_days, my_adatom, list_of_markets){
     t = 150,
     pad = 4
   )
-  p<-plot_ly(my_df, x = ~Date, y = ~change, color =~ticker, text= ~Close)%>%
+  p<-plot_ly(adatom, x = ~Date, y = ~change, color =~ticker, text= ~Close)%>%
     add_lines()%>%layout(title = paste(number_of_days, 'Days'), xaxis = x, yaxis = y, height = 900, width = 1200)%>%
     subplot(nrows=100, shareX = T )
   
   return(p)
   
 }
-
 
 get_company_list <- function(){
   
@@ -84,7 +79,6 @@ get_company_list <- function(){
   for (i in 1:nrow(comp_list)){
     comp_list$MarketCap[i] <- substr(comp_list$MarketCap[i], 2,nchar(comp_list$MarketCap[i]))
   }
-  
   
   for (i in 1:nrow(comp_list)){
     if (endsWith(comp_list$MarketCap[i],"B")) {

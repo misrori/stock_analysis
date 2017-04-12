@@ -6,7 +6,7 @@ library(data.table)
 
 
 function(input, output, session) {
-  source('my_functions.R')
+  source('../my_functions.R')
   
   my_list <- reactive({
      szoveg<-as.character(input$stock_list)
@@ -20,10 +20,7 @@ function(input, output, session) {
     return(adatom_teljes)
   })
   
-  #list_of_my_markets <- c(TSLA", NVDA,AMD,AAPL,GE,MU,OLED)
-  #adatom_teljes <- prices(list_of_my_markets)
-  
-  
+
   my_plot <- reactive({
     tozsde_plot(number_of_days = input$integer, my_adatom = my_data(), list_of_markets =my_list() )
   })
@@ -33,22 +30,3 @@ function(input, output, session) {
   })
   
 }
-
-
-# 
-# 
-# function(input, output, session) {
-#   source('my_functions.R')
-#   list_of_my_markets <- c("TSLA", "NVDA", "AMD", "AAPL", "GE", "MU", "OLED")
-#   adatom_teljes <- prices(list_of_my_markets)
-#   adatom_teljes$Date <- as.Date(adatom_teljes$Date)
-#   
-#   my_plot <- reactive({
-#     tozsde_plot(number_of_days = input$integer, my_adatom = adatom_teljes, list_of_markets =list_of_my_markets )
-#   })
-#   
-#   output$summary_plot <- renderPlotly({
-#     my_plot()
-#   })
-#   
-# }
