@@ -26,6 +26,6 @@ def my_download(each_code):
 from multiprocessing import Pool
 p = Pool(8)
 p.map(my_download, my_list)
-
+p.close()
 print('NYSE data daownoaded')
 
