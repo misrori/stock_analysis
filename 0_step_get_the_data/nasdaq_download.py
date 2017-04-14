@@ -5,7 +5,7 @@ from pandas_datareader import data as dreader
 from datetime import datetime, timedelta
 import sys
 import os
-os.chdir("/home/mihaly/Desktop/stock_data")
+os.chdir("/home/misrori/Desktop/stock_data")
 
 d=pd.read_csv('http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download')
 
@@ -17,7 +17,6 @@ def my_download(each_code):
         print(each_code)
         b = dreader.DataReader(each_code,'yahoo','1900-01-01',end)
         b['ticker']= each_code
-        b['ny'] = 0
         b.to_csv(each_code+'.csv')
         szamlalo= szamlalo+1
     except:

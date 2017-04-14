@@ -64,7 +64,12 @@ tozsde_plot <- function(number_of_days, my_adatom, list_of_markets){
 
 get_company_list <- function(){
   
-  comp_list = data.table(rbind(read.csv('http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download', stringsAsFactors = F), read.csv('http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nyse&render=download', stringsAsFactors = F)))
+  comp_list1 = read.csv('http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download', stringsAsFactors = F)
+  comp_list1$ny <- 0
+  comp_list2 = read.csv('http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nyse&render=download', stringsAsFactors = F)
+  comp_list2$ny <- 1
+  comp_list<- data.table(rbind(comp_list1,comp_list2))
+  
   #cleaning
   comp_list <- comp_list[,-c(5,8,9), with=F]
   comp_list <-comp_list[-grep("\\^",comp_list$Symbol),  ]

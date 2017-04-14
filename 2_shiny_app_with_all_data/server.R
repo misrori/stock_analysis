@@ -17,8 +17,6 @@ function(input, output, session) {
     return(indristies)
   })
   
-
-  
   output$industries <- renderUI({
     selectInput("industries_select", "Vállasz industries",selected = "", choices= my_industries() )
   })
@@ -26,22 +24,36 @@ function(input, output, session) {
   my_market <- reactive({
     return(input$rb)
   })
-  my_list <- reactive({
-    lista <- comp_list[comp_list$Sector==input$sector & comp_list$industry==input$industries_select ]$Symbol
-    return(lista)
-  })
   
-  my_data <- reactive({
-    if(my_market()=='2'){
-      adatom_teljes <- adat[adat$ticker %in% my_list()]
-      adatom_teljes$Date <- as.Date(adatom_teljes$Date)
+
+  
+  
+  my_list <- reactive({
+    if(my_market()!=2){
+      lista <- comp_list[comp_list$Sector==input$sector & comp_list$industry==input$industries_select & comp_list$ny==my_market() ]$Symbol
+      return(lista)
     }
     else{
-      adatom_teljes <- adat[adat$ticker %in% my_list()& adat$ny==my_market(),]
-      
-      adatom_teljes$Date <- as.Date(adatom_teljes$Date)
+      lista <- comp_list[comp_list$Sector==input$sector & comp_list$industry==input$industries_select ]$Symbol
+      return(lista)
     }
     
+  })
+  
+  
+  output$check_list <- renderUI({
+    checkboxGroupInput("ch_list", "List of stock:",choiceNames =my_list() ,
+                       choiceValues = my_list(),selected = my_list())
+  })
+  
+  my_final_list <- reactive({
+      return(input$ch_list)
+  })
+  
+  
+  my_data <- reactive({
+    adatom_teljes <- adat[adat$ticker %in% my_final_list()]
+    adatom_teljes$Date <- as.Date(adatom_teljes$Date)
     return(adatom_teljes)
   })
   
