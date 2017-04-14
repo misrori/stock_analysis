@@ -2,6 +2,7 @@ library(shiny)
 library(DT)
 library(plotly)
 library(data.table)
+library(stringr)
 
 
 

@@ -2,6 +2,7 @@ library(shiny)
 library(plotly)
 library(DT)
 library(data.table)
+library(stringr)
 
 
 navbarPage(
