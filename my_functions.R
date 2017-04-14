@@ -55,7 +55,7 @@ tozsde_plot <- function(number_of_days, my_adatom, list_of_markets){
     pad = 4
   )
   p<-plot_ly(adatom, x = ~Date, y = ~change, color =~ticker, text= ~Close)%>%
-    add_lines()%>%layout(title = paste(number_of_days, 'Days'), xaxis = x, yaxis = y, height = 900, width = 1200)%>%
+    add_lines()%>%layout(title = paste(number_of_days, 'Days'), xaxis = x, yaxis = y, height = 900, width = 1000)%>%
     subplot(nrows=100, shareX = T )
   
   return(p)
