@@ -102,4 +102,20 @@ get_company_list <- function(){
 }
 
 
+summary_adathoz <- function(number_of_days, my_adatom, list_of_markets){
+    
+    my_days <- sort(unique(my_adatom$Date), decreasing = T)[c(1:number_of_days)]
+    adatom <- data.table(my_adatom[my_adatom$Date %in% my_days,])
+    setorder(adatom, ticker, Date)
+    
+    
+    for (i in list_of_markets) {
+      baseline <- adatom[ticker == i, Close][1]
+      adatom[ticker == i, change := (Close/baseline-1)*100]
+    }
+    
+    return(adatom[, .SD[.N], by="ticker"])
+    
+}
+
 

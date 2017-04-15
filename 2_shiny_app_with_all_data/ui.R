@@ -6,13 +6,13 @@ library(rio)
 
 
 navbarPage(
-           title="Tőzsde elemzés",
+           title="Stock Analysis",
 
-           tabPanel("Elemzés",
+           tabPanel("Plots",
                     sidebarLayout(
                       sidebarPanel(
                         
-                        selectInput("sector", label = "chosse a Sector", 
+                        selectInput("sector", label = "Chosse a Sector", 
                                     choices = c("","Basic industries"="basic_industries", 
                                                 "Capital Goods"= "capital_goods", "Consumer Durables"= "consumer_durables", 
                                                 "Consumer Non-Durables" = "consumer_non-durables", 
@@ -33,6 +33,33 @@ navbarPage(
                       )
                     )
                     
+           ),
+           tabPanel("Summary",
+                    h1("Summary of the selected conditons", align = "center"),
+                    verbatimTextOutput("nrow"),
+                    br(),
+                    verbatimTextOutput("average"),
+                    br(),
+                    verbatimTextOutput("numbers"),
+                    br(),
+                    dataTableOutput("table"),
+                    # h2("Magyarország ", round(sum(adat$osszeg)/1000, 2), "milliárd forintot fizetett ki", align="center"),
+                    # h2( nrow(adat), "nyertes pályázatra" ,align="center"),
+                    # h2( 'a Széchenyi 2020 program keretében!',align="center"),
+                    # br(),
+                    # br(),
+                    tags$div(
+                      h3('Az adatok forrása',align="center"), #tags$a(href="https://www.palyazat.gov.hu/tamogatott_projektkereso", "https://www.palyazat.gov.hu/tamogatott_projektkereso", style="text-align: center;")
+                      HTML(' <center> <a target="_blank", href="https://www.palyazat.gov.hu/tamogatott_projektkereso">https://www.palyazat.gov.hu</a> </center>')
+                    ),
+                    br(),
+                    h3('Az adatok utolsó frissítési dátuma', align="center"),
+                    h4('2017-03-07', align="center"),
+                    br(),
+                    tags$div(
+                      h3('Az oldalt készítette',align="center"), #tags$a(href="https://www.palyazat.gov.hu/tamogatott_projektkereso", "https://www.palyazat.gov.hu/tamogatott_projektkereso", style="text-align: center;")
+                      HTML(' <center> <a target="_blank", href="http://www.orsosmihaly.com">Orsós Mihály</a> </center>')
+                    )
            ),
 
            tags$head(
